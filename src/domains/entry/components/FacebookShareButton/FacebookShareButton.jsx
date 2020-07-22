@@ -6,7 +6,6 @@ const FACEBOOK_SDK =
 
 export function FacebookShareButton() {
   useScriptTag(FACEBOOK_SDK, {beforeLoad: () => {
-      console.log('beforeLoad')
       if ('FB' in globalThis) {
         globalThis.FB.XFBML.parse();
         return true;
