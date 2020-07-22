@@ -1,8 +1,9 @@
 import React from 'react';
-import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 
 import { ProportionalImage } from '../../../../foundation/components/ProportionalImage';
+import dayjs from '../../../../foundation/dayjs'
+import {toISOString} from '../../../../foundation/format';
 
 export function CommentListItem({ comment }) {
   return (
@@ -21,10 +22,10 @@ export function CommentListItem({ comment }) {
         <footer className="comment-CommentListItem__footer">
           <Link to={`#comment-${comment.comment_id}`}>
             <time
-              dateTime={moment(comment.posted_at).toISOString(true)}
-              title={moment(comment.posted_at).toISOString(true)}
+              dateTime={toISOString(comment.posted_at)}
+              title={toISOString(comment.posted_at)}
             >
-              {moment(comment.posted_at).fromNow()}
+              {dayjs(comment.posted_at).fromNow()}
             </time>
           </Link>
         </footer>
