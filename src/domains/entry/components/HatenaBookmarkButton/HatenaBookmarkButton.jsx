@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
-import $ from 'jquery';
+import React from 'react';
+import { useScriptTag } from '../../../../foundation/scriptTag';
 
 const HATENA_SDK = 'https://b.st-hatena.com/js/bookmark_button.js';
 
 export function HatenaBookmarkButton({ location }) {
-  useEffect(() => {
-    const script$ = $(`<script src=${HATENA_SDK}></script>`).appendTo('body');
-
-    return () => {
-      script$.remove();
-    };
-  }, []);
+  useScriptTag(HATENA_SDK)
 
   return (
     <div className="entry-HatenaBookmarkButton">
