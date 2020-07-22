@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
-import $ from 'jquery';
+import React from 'react';
+import { useScriptTag } from '../../../../foundation/scriptTag';
 
 const TWITTER_SDK = 'https://platform.twitter.com/widgets.js';
 
 export function TwitterShareButton() {
-  useEffect(() => {
-    const script$ = $(`<script src=${TWITTER_SDK}></script>`).appendTo('body');
-
-    return () => {
-      script$.remove();
-    };
-  }, []);
+  useScriptTag(TWITTER_SDK)
 
   return (
     <div className="entry-TwitterShareButton">

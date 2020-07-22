@@ -1,24 +1,18 @@
-import React, { useEffect } from 'react';
-import $ from 'jquery';
+import React from 'react';
+import { useScriptTag } from '../../../../foundation/scriptTag';
 
 const FACEBOOK_SDK =
   'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
 
 export function FacebookShareButton() {
-  useEffect(() => {
-    if ('FB' in globalThis) {
-      globalThis.FB.XFBML.parse();
-      return;
-    }
-
-    const script$ = $(
-      `<script crossorigin="anonymous" src=${FACEBOOK_SDK}></script>`,
-    ).appendTo('body');
-
-    return () => {
-      script$.remove();
-    };
-  }, []);
+  useScriptTag(FACEBOOK_SDK, {beforeLoad: () => {
+      console.log('beforeLoad')
+      if ('FB' in globalThis) {
+        globalThis.FB.XFBML.parse();
+        return true;
+      }
+      return false
+    }})
 
   return (
     <div className="entry-FacebookShareButton">
