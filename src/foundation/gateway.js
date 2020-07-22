@@ -1,4 +1,3 @@
-import timeout from 'race-timeout';
 import axiosMod from 'axios';
 import AxiosMockAdapter from 'axios-mock-adapter';
 
@@ -447,9 +446,16 @@ export function setupMockAPIData() {
   });
 }
 
+const timeout = (ms) =>
+  new Promise(function (resolve) {
+    setTimeout(function () {
+      // タイムアウト
+      resolve('timeout');
+    }, ms);
+  });
+
 export async function fetch(path) {
-  const requestWithTimeout = timeout(axios.get(path), TIMEOUT);
-  const res = await requestWithTimeout;
+  const res = await Promise.race([timeout(TIMEOUT), axios.get(path)]);
 
   if (res === 'timeout') {
     throw new Error(`Timeout: ${path}`);
