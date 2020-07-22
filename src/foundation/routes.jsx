@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {Suspense, lazy} from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Entrance } from '../pages/entrance';
-import { BlogHome } from '../pages/blog_home';
-import { Entry } from '../pages/entry';
-import { NotFound } from '../pages/not_found';
+const Entrance = lazy(() => import(/* webpackChunkName: "entrance" */'../pages/entrance'));
+const BlogHome = lazy(() => import(/* webpackChunkName: "blog_home" */'../pages/blog_home'));
+const Entry = lazy(() => import(/* webpackChunkName: "entry" */'../pages/entry'));
+const NotFound = lazy(() => import(/* webpackChunkName: "not_found" */'../pages/not_found'));
 
 export function Routes() {
   const error = useSelector((state) => state.error.toJS());
@@ -15,6 +15,7 @@ export function Routes() {
   }
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <Switch>
       <Route exact path="/">
         <Entrance />
@@ -29,5 +30,6 @@ export function Routes() {
         <NotFound />
       </Route>
     </Switch>
+    </Suspense>
   );
 }
